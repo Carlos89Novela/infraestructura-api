@@ -1,7 +1,12 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
+app.use(cors({
+  origin: "*"
+}));
+
 
 let logs = [];
 
@@ -51,8 +56,8 @@ app.post("/api/recover", (req, res) => {
 });
 
 // ✅ SIEMPRE AL FINAL
-app.listen(3000, () => {
-  console.log("API corriendo en puerto 3000");
+app.listen(4000, () => {
+  console.log("API corriendo en puerto 4000");
 });
 
 // Cambio para PR

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Frontend API</title>
+</head>
+<body>
+
+  <h1>Gestor de Logs</h1>
+
+  <h2>Registrar Log</h2>
+
+  <input id="usuario" placeholder="Usuario">
+  <input id="accion" placeholder="Acción">
+
+  <button onclick="enviarLog()">Enviar</button>
+
+  <hr>
+
+  <h2>Ver Logs</h2>
+
+  <button onclick="obtenerLogs()">Mostrar Logs</button>
+
+  <ul id="lista"></ul>
+
+  <script>
+
+    function enviarLog() {
+      const usuario = document.getElementById("usuario").value;
+      const accion = document.getElementById("accion").value;
+
+      fetch("http://localhost:4000/api/logs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          usuario: usuario,
+          accion: accion
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Log guardado");
+        console.log(data);
+      });
+    }
+
+    function obtenerLogs() {
+      fetch("http://localhost:4000/api/logs")
+        .then(res => res.json())
+        .then(data => {
+
+          const lista = document.getElementById("lista");
+          lista.innerHTML = "";
+
+          data.forEach(log => {
+            const item = document.createElement("li");
+            item.textContent = log.usuario + " - " + log.accion;
+            lista.appendChild(item);
+          });
+
+        });
+    }
+
+  </script>
+
+</body>
+</html>
